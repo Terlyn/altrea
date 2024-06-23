@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'Yotin-Medium';
+    src: url('../font/FontsFree-Net-Yotin3.ttf') format('truetype');
+}
+* {
+    box-sizing: border-box;
+    font-family: 'Yotin-Medium', sans-serif;
+}

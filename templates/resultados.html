@@ -1,0 +1,43 @@
+{% extends './base.html' %}
+{% block titulo %}
+Usuario dentro
+{% endblock %}
+{% block contenido %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Resultados</h1>
+        <table class="table table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Activo</th>
+                    <th>Reflexivo</th>
+                    <th>Teórico</th>
+                    <th>Pragmático</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estilo in data %}
+                <tr>
+                    <td>{{ estilo['Activo'] }}</td>
+                    <td>{{ estilo['Reflexivo'] }}</td>
+                    <td>{{ estilo['Teórico'] }}</td>
+                    <td>{{ estilo['Pragmático'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</body>
+
+
+
+
+
+
+{% endblock %}
