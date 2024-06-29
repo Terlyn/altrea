@@ -1,0 +1,419 @@
+{% extends './base.html' %}
+{% block contenido %}
+<section>
+    {% with mensajes_flash = get_flashed_messages() %}
+        {% if mensajes_flash %}
+            <ul class="list-unstyled">
+                {% for mensaje in mensajes_flash %}
+                    <li class="alert alert-info">{{ mensaje }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registro</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body {
+                background-color: #f8f9fa;
+            }
+            .register {
+                background: #ffffff;
+                margin-top: 3%;
+                padding: 3%;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px 0px #000000;
+            }
+            .register-left {
+                text-align: center;
+                color: #495057;
+                margin-top: 4%;
+            }
+            .register-left .btn-custom {
+                border: none;
+                border-radius: 1.5rem;
+                padding: 10px 20px;
+                width: 80%;
+                background: #6c757d;
+                font-weight: bold;
+                color: #fff;
+                margin-top: 10%;
+                margin-bottom: 3%;
+                cursor: pointer;
+            }
+            .register-right {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                background: #ffffff;
+                border-radius: 10px;
+                padding: 3%;
+                box-shadow: 0px 0px 10px 0px #000000;
+            }
+            .register-left img {
+                margin-top: 15%;
+                margin-bottom: 5%;
+                width: 25%;
+                -webkit-animation: mover 2s infinite alternate;
+                animation: mover 1s infinite alternate;
+            }
+            @-webkit-keyframes mover {
+                0% {
+                    transform: translateY(0);
+                }
+                100% {
+                    transform: translateY(-20px);
+                }
+            }
+            @keyframes mover {
+                0% {
+                    transform: translateY(0);
+                }
+                100% {
+                    transform: translateY(-20px);
+                }
+            }
+            .register-left p {
+                font-weight: lighter;
+                padding: 12%;
+                margin-top: -9%;
+            }
+            .register .register-form {
+                padding: 10%;
+                margin-top: 10%;
+            }
+            .btnRegister {
+                float: right;
+                margin-top: 10%;
+                border: none;
+                border-radius: 1.5rem;
+                padding: 10px 20px;
+                background: #6c757d;
+                color: #fff;
+                font-weight: 600;
+                width: 50%;
+                cursor: pointer;
+            }
+            .register .nav-tabs {
+                border: none;
+                background: #6c757d;
+                border-radius: 1.5rem;
+                width: 28%;
+                float: right;
+                height: 80%;
+            }
+            .register .nav-tabs .nav-link {
+                padding: 8%;
+                height: 34px;
+                font-weight: 600;
+                color: #fff;
+                border-top-right-radius: 1.5rem;
+                border-bottom-right-radius: 1.5rem;
+                height: 80%;
+            }
+            .register .nav-tabs .nav-link:hover {
+                border: none;
+            }
+            .register .nav-tabs .nav-link.active {
+                width: 100px;
+                color: #6c757d;
+                border: 2px solid #6c757d;
+                border-top-left-radius: 1.5rem;
+                border-bottom-left-radius: 1.5rem;
+            }
+            .register-heading {
+                text-align: center;
+                margin-top: 8%;
+                margin-bottom: -15%;
+                color: #495057;
+            }
+            .table-container {
+                margin-top: 20px;
+            }
+            .modal-header {
+                background-color: #0056b3;
+                color: white;
+            }
+            .modal-body {
+                max-height: 500px;
+                overflow-y: auto;
+            }
+            #visualizarModal{
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container register">
+            <div class="row">
+                {% if user %}
+                <div class="col-md-3 register-left" id="register-left">
+                    <h3>Opciones de Usuario</h3>
+                    <p>En este espacio puede editar o borrar su usuario</p>
+                    <!-- Botones que activan los modales -->
+                    <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#editarModal">Cambiar Contraseña</button>
+                    <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#eliminarModal">Editar Usuarios</button>
+                </div>
+                {% endif %}
+                <div class="col-md-9 register-right">
+                    <div class="col-md-12 align-self-end">
+                        <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Crear</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Editar</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <form action="/process_form" method="post">
+                                <h3 class="text-center">Crear Nueva Sección</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="seccion" class="form-control" placeholder="Sección" value="" />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" name="especialidad" class="form-control" placeholder="Especialidad" value="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="curso" class="form-control" placeholder="Curso" value="" />
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" name="correoMaestro" class="form-control" placeholder="correo Maestro" value="" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="año" class="form-control" placeholder="año" value="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <input type="submit" class="btn btn-primary" value="Aceptar" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <h3 class="register-heading">Editar Sección</h3>
+                            <div class="row register-form">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <form action= "\visualize" method="post" class=" me-3 d-flex justify-content-center align-items-center">
+                                        <select class="form-control w-auto" id="seccion" name="seccion">
+                                            {% for seccion in secciones %}
+                                                <option value="{{ seccion }}">{{seccion['section']}} - {{ seccion['course']}} - {{seccion['specialty']}} -  {{seccion['email_teacher']}} - {{seccion['year']}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="d-flex align-items-center">
+                                            <button class="btn btn-primary btn-sm me-2" type="submit" data-bs-toggle="modal" data-bs-target="#visualizarModal">Visualizar</button>
+                                            <!-- <button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#editarSeccionModal">Editar</button> -->
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Cambiar Contraseña -->
+        <div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="POST" action="{{ url_for('change_password')}}">
+                        {% if csrf_token %}
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        {% endif %}
+                        <input type="hidden" name="_method" value="PUT">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editarModalLabel">Editar Contraseña</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="email">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Nueva Contraseña</label>
+                                <input type="password" class="form-control" id="password" name="nueva_clave" placeholder="Ingrese nueva contraseña" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Eliminar -->
+        <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eliminarModalLabel">Usuarios</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-container">
+                            <h5 class="modal-title" id="eliminarModalLabel">Editar</h5>
+                            <form action="{{ url_for('change_password') }}" method="post">
+                                <table  class="table table-striped table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Email</th>
+                                            <th>Nombre</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for usuario in usuarios %}
+                                            <tr>
+                                                <td><input type="email" class="form-control" name="email_" value="{{ usuario[1]}}"></td>
+                                                <td class="d-none"><input type="password" name="clave_" class="form-control d-none" value="{{ usuario[2]}}" readonly ></td>
+                                                <td><input type="text" name="nombre_" class="form-control" value="{{ usuario[3]}}"></td>
+                                                <!-- <td><button type="submit" class="btn btn-link">Eliminar</button></td> -->
+                                            </tr>
+                                        {% endfor %}  
+                                    </tbody>
+                                </table>
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            </form>
+
+                            <h5 class="modal-title" id="eliminarModalLabel">Crear Usuarios</h5>
+                            <form action="{{ url_for('register') }}" method="post" class="shadow p-4 rounded bg-light">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input autofocus required type="email" class="form-control" id="email" name="email" placeholder="Email@prueba.com">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contraseña" class="form-label">Contraseña</label>
+                                    <input required type="password" class="form-control" id="contraseña" name="contraseña" placeholder="123">
+                                </div>
+                                <div class="mb-3 text-center">
+                                    <button type="submit" class="btn btn-primary">Registrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Visualizar -->
+        <div class="modal fade show" id="visualizarModal" tabindex="-1" aria-labelledby="visualizarModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="visualizarModalLabel">Detalles de la Sección</h5>
+                        <button type="button" class="btn-close" id="closex" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Activo</th>
+                                    <th>Reflexivo</th>
+                                    <th>Teórico</th>
+                                    <th>Pragmático</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if resultados %}
+                                {% for estilo in resultados %}
+                                    <tr>
+                                        <td>{{ estilo['Activo'] }}</td>
+                                        <td>{{ estilo['Reflexivo'] }}</td>
+                                        <td>{{ estilo['Teórico'] }}</td>
+                                        <td>{{ estilo['Pragmático'] }}</td>
+                                        <td>{{ estilo['Email'] }}</td>
+                                    </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No hay resultados disponibles</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Editar Sección -->
+        <div class="modal fade" id="editarSeccionModal" tabindex="-1" aria-labelledby="editarSeccionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarSeccionModalLabel">Editar Sección</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/modify_section" method="post">
+                            <div class="mb-3">
+                                <label for="seccion" class="form-label">Sección</label>
+                                <input type="text" class="seccion" id="seccion" name="seccion">
+                            </div>
+                            <div class="mb-3">
+                                <label for="especialidad" class="form-label">Especialidad</label>
+                                <input type="text" class="especialidad" id="especialidad" name="especialidad">
+                            </div>
+                            <div class="mb-3">
+                                <label for="curso" class="form-label">Curso</label>
+                                <input type="text" class="curso" id="curso" name="curso">
+                            </div>
+                            <div class="mb-3">
+                                <label for="correoMaestro" class="form-label">Correo Maestro</label>
+                                <input type="email" class="correoMaestro" id="correoMaestro" name="correoMaestro">
+                            </div>
+                            <div class="mb-3">
+                                <label for="año" class="form-label">Año</label>
+                                <input type="text" class="año" id="año" name="año">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS and dependencies (optional) -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+    </body>
+    <script>
+        document.getElementById('close').addEventListener('click', function() {
+            document.getElementById('visualizarModal').style.display = 'none';
+        });
+        document.getElementById('closex').addEventListener('click', function() {
+            document.getElementById('visualizarModal').style.display = 'none';
+        });
+    </script>
+</section>
+{% endblock %}

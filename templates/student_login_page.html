@@ -1,0 +1,194 @@
+{% extends './base.html' %}
+{% block titulo %}
+Usuario dentro
+{% endblock %}
+{% block contenido %}
+<section>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In / Sign Up</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FFF7E0; /* Fondo amarillo claro */
+            font-family: 'Comic Neue', cursive; /* Fuente Comic Neue */
+        }
+        .container {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .row {
+            width: 100%;
+            max-width: 900px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0;
+        }
+        .welcome-section, .signup-section {
+            padding: 20px 30px;
+            text-align: center;
+            flex: 1;
+        }
+        .welcome-section {
+            background-color: #FFD5E5; /* Fondo rosa pastel */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .signup-section {
+            background-color: #E0F7FA; /* Fondo azul claro */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .welcome-section h2, .signup-section h2 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color:  #0b0c75 ; /* Azul pastel */
+        }
+        .welcome-section p, .signup-section p {
+            font-weight: 400;
+            margin-bottom: 15px;
+            color:  #0b0c75 ; /* Azul pastel */
+        }
+        .btn-signin, .btn-signup {
+            background-color:  #0b0c75 ; /* Botón azul pastel */
+            color: white;
+            font-weight: 500;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            transition: background-color 0.3s;
+        }
+        .btn-signin:hover, .btn-signup:hover {
+            background-color:  #6c6ed5 ; /* Botón azul oscuro al pasar el ratón */
+        }
+        .form-control {
+            margin-bottom: 10px;
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid #ced4da; /* Borde gris */
+            transition: border-color 0.3s ease-in-out;
+        }
+        .form-control:focus {
+            border-color: #0b0c75 ; /* Borde azul pastel al enfocar */
+            box-shadow: 0 0 0 0.2rem rgba(11, 12, 117, 0.25); /* Sombra al enfocar */
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .social-icons a {
+            margin: 0 10px;
+            color:  #0b0c75 ;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+        .social-icons a:hover {
+            color:  #fff ;
+        }
+        
+        /* Estilos específicos para la modal */
+        .modal-content {
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .modal-header {
+            background-color: #0b0c75 ; /* Fondo azul pastel */
+            color: white;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+        .modal-title {
+            font-weight: bold;
+        }
+        .modal-body {
+            padding: 30px;
+        }
+        .form-control-modal {
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid #ced4da; /* Borde gris */
+            transition: border-color 0.3s ease-in-out;
+        }
+        .form-control-modal:focus {
+            border-color: #0b0c75 ; /* Borde azul pastel al enfocar */
+            box-shadow: 0 0 0 0.2rem rgba(11, 12, 117, 0.25); /* Sombra al enfocar */
+        }
+        .btn-modal {
+            background-color: #0b0c75 ; /* Botón azul pastel */
+            color: white;
+            font-weight: bold;
+            border-radius: 20px;
+            padding: 10px 20px;
+            border: none;
+        }
+        .btn-modal:hover {
+            background-color: #6c6ed5 ; /* Botón azul oscuro al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1 class="h2" style="color:  #0b0c75 ; font-weight: bold;">¡Bienvenido a tu Aventura de Aprendizaje!</h1>
+        <hr class="my-4">
+    </div>
+    <div class="container">
+        <div class="row">
+            <!-- Sign In Section -->
+            <div class="col-md-6 welcome-section">
+                <h2>Acceso Rápido</h2>
+                <p>No podrás acceder a los resultados más tarde.</p>
+                <a href="{{url_for('show_form')}}" class="btn btn-signin btn-lg">Ingresar</a>
+            </div>
+            <!-- Sign Up Section -->
+            <div class="col-md-6 signup-section">
+                <h2>Iniciar Sesión</h2>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+                <form action="{{ url_for('student_login')}}" method="POST">
+                    <input id="email" name="email" type="email" class="form-control" placeholder="Correo Electrónico">
+                    <input id="contraseña" name="contraseña" type="password" class="form-control" placeholder="Contraseña">
+                    <button type="submit" class="btn btn-signup btn-lg btn-block">Ingresar</button>
+                </form>
+                <p><a href="#" data-toggle="modal" data-target="#registerModal" style="font-weight: 700; color: #d24c2a ;">Crea una cuenta</a> para guardar tus resultados y acceder a ellos en cualquier momento.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Registro de Usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('register_student')}}" method="POST">
+                        <input id="nombreRegistro" name="nombreRegistro" type="text" class="form-control-modal" placeholder="Nombre">
+                        <input id="emailRegistro" name="emailRegistro" type="email" class="form-control-modal" placeholder="Correo Electrónico">
+                        <input id="contraseñaRegistro" name="contraseñaRegistro" type="password" class="form-control-modal" placeholder="Contraseña">
+                        <button type="submit" class="btn btn-modal btn-lg btn-block">Registrarse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</section>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends './base.html' %}
+{% block titulo %}
+Acceso de Niños
+{% endblock %}
+{% block contenido %}
+<section style="background-color: #F8F8FF; padding: 50px 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card p-4 shadow-sm rounded" style="background-color: #FFFFFF;">
+                    <h3 class="text-center mb-4" style="color:  #0b0c75;">¡Bienvenido!</h3>
+                    <form action="{{ url_for('login') }}" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label" style="color:  #0b0c75;">Correo Electrónico</label>
+                            <input autofocus required type="email" class="form-control form-control-lg" id="email" name="email" placeholder="Email@prueba.com" style="border-color: #FF69B4;">
+                        </div>
+                        <div class="mb-3">
+                            <label for="contraseña" class="form-label" style="color:  #0b0c75;">Contraseña</label>
+                            <input required type="password" class="form-control form-control-lg" id="contraseña" name="contraseña" placeholder="Contraseña" style="border-color: #FF69B4;">
+                        </div>
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg" style="background-color:  #0b0c75; border-color: #0b0c75;">Entrar</button>
+                        </div>
+                    </form>
+                    <!-- {% with mensajes_flash = get_flashed_messages() %}
+                        {% if mensajes_flash %}
+                            <div class="alert alert-warning mt-4" style="background-color: #F8F8FF; color: #FF69B4;">
+                                <ul class="mb-0">
+                                    {% for mensaje in mensajes_flash %}
+                                        <li>{{ mensaje }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endwith %} -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
