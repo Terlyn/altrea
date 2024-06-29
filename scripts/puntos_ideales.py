@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-from socal_jaccard import socal_jaccard
-from coorp3c import coorp3c
+from scripts import socal_jaccard
+from scripts import coorp3c
 
 def puntos_ideales(X, x):
     n, p = X.shape

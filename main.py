@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, redirect, request, url_for, render_template, flash, session
 from dotenv import load_dotenv
-import basedatos
+from scripts import basedatos
 import os
 import json
 #source venv/bin/activate 

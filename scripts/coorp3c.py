@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from non2euclid import non2euclid
+from scripts import non2euclid
 from scipy.linalg import svd
 
 

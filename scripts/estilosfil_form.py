@@ -2,9 +2,9 @@
 import numpy as np
 import pandas as pd
 import openpyxl
-from socal_jaccard import socal_jaccard
-from coorp3c import coorp3c
-from puntos_ideales import puntos_ideales
+from scripts import socal_jaccard
+from scripts import coorp3c
+from scripts import puntos_ideales
 
 data_ideal = [
     [  0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0,

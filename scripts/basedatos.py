@@ -1,7 +1,7 @@
 # -- coding: utf-8 --
 from supabase import create_client, Client
 from dotenv import load_dotenv
-import estilosfil_form
+from scripts import estilosfil_form
 import os
 
 # Cargar variables de entorno desde el archivo .env
